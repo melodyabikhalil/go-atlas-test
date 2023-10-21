@@ -11,6 +11,8 @@ permissions:
   contents: read
   pull-requests: write
 jobs:
+  # Set up a PostgreSQL 15 container as a dev-database.
+  # Run golang-migrate on the provided migrations directory to lint and validate your migrations.
   lint:
     services:
       # Spin up a postgres:15 container to be used as the dev-database for analysis.
@@ -35,10 +37,13 @@ jobs:
       - uses: ariga/atlas-action@v0
         with:
           dir: 'db/migrations'
-          dir-format: 'golang-migrate'
           dev-url: "postgres://postgres:pass@localhost:5432/dev?sslmode=disable"
           cloud-token: ${{ secrets.ATLAS_CLOUD_TOKEN }}
-          name: 'melody-test'
+          dir-name: 'melody-test'
+
+  # Run only if the workflow was triggered on the main branch.
+  # Set up another PostgreSQL 15 container as a dev-database.
+  # Use AtlasGo to synchronize the database schema with your migrations.
   sync:
     needs: lint
     if: github.ref == 'refs/heads/main'
@@ -63,4 +68,4 @@ jobs:
           dir: 'db/migrations'
           dev-url: "postgres://postgres:pass@postgres:5432/dev?sslmode=disable"
           cloud-token: ${{ secrets.ATLAS_CLOUD_TOKEN }}
-          name: 'melody-test'
+          dir-name: 'melody-test'

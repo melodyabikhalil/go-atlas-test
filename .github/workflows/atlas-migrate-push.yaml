@@ -1,15 +1,17 @@
 name: Push Migrations
 on:
-  # Run whenever code is changed in the master branch,
-  # change this to your root branch.
+  # Run whenever code is changed in the main branch,
   push:
     branches:
       - main
-
   pull_request:
     types:
       - ready_for_review
+
 jobs:
+
+  # Set up a PostgreSQL 15 container as a dev-database.
+  # Run golang-migrate on the provided migrations directory to push (apply) the migrations to the database.
   push:
     services:
       # Spin up a postgres:15 container to be used as the dev-database.
