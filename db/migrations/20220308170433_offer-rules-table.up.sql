@@ -7,7 +7,7 @@ CREATE TABLE offer_rules
 
     legacy_id  varchar(50)
 
-    created_at timestamp   not null,
+    created_at timestamp   not null
     updated_at timestamp   not null,
     deleted_at timestamp
 );
