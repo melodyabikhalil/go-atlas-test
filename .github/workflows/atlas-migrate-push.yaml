@@ -33,6 +33,6 @@ jobs:
           cloud-token: ${{ secrets.ATLAS_CLOUD_TOKEN }}
       - uses: ariga/atlas-action/migrate/push@v1
         with:
-          dir: 'file://db/migrations'
+          dir: 'file://db/migrations-atlas'
           dir-name: 'melody-test'
           dev-url: postgres://postgres:pass@localhost:5432/test?sslmode=disable
